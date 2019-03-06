@@ -73,6 +73,13 @@ void test_value(const T& val)
    }
 }
 
+template <class T>
+void test_u256_shift_left()
+{
+  using uint256 = number<cpp_int_backend<256, 256, unsigned_magnitude, unchecked, void>>;
+	BOOST_CHECK_EQUAL(uint256(3) << 255, uint256(1) << 255);
+}
+
 void test(const boost::mpl::int_<200>&) {}
 
 template <int N>
@@ -86,7 +93,7 @@ void test(boost::mpl::int_<N> const&)
 
    mp_type mp(-1);
    test_value(mp);
-
+   test_u256_shift_left();
    for(unsigned i = 0; i < 1000; ++i)
       test_value(generate_random<mp_type>(std::numeric_limits<mp_type>::digits));
 }
@@ -97,6 +104,3 @@ int main()
    test(boost::mpl::int_<24>());
    return boost::report_errors();
 }
-
-
-
